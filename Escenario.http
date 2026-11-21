@@ -1,0 +1,79 @@
+@base = http://localhost:5056
+
+### Consultar parámetros iniciales
+GET {{base}}/api/granja
+
+### Día 1: registrar 150 L
+POST {{base}}/api/produccion
+Content-Type: application/json
+
+{"fecha":"2026-12-01"}
+
+### Día 1: elaborar 10 kg de queso
+POST {{base}}/api/produccion/transformaciones
+Content-Type: application/json
+
+{"fecha":"2026-12-01","tipoProducto":"Queso","litros":100}
+
+### Día 1: elaborar 50 L de yogurt
+POST {{base}}/api/produccion/transformaciones
+Content-Type: application/json
+
+{"fecha":"2026-12-01","tipoProducto":"Yogurt","litros":50}
+
+### Día 2: registrar 150 L
+POST {{base}}/api/produccion
+Content-Type: application/json
+
+{"fecha":"2026-12-02"}
+
+### Día 2: elaborar 15 kg de queso
+POST {{base}}/api/produccion/transformaciones
+Content-Type: application/json
+
+{"fecha":"2026-12-02","tipoProducto":"Queso","litros":150}
+
+### Día 3: vender 12 kg de queso (10 del primer lote y 2 del segundo)
+POST {{base}}/api/ventas
+Content-Type: application/json
+
+{"fecha":"2026-12-03","tipoProducto":"Queso","cantidad":12}
+
+### Día 3: vender 20 L de yogurt
+POST {{base}}/api/ventas
+Content-Type: application/json
+
+{"fecha":"2026-12-03","tipoProducto":"Yogurt","cantidad":20}
+
+### Día 17: procesar 30 L de yogurt vencidos
+POST {{base}}/api/inventario/vencimientos
+Content-Type: application/json
+
+{"fecha":"2026-12-17"}
+
+### Día 17: intentar vender 5 L de yogurt (409)
+POST {{base}}/api/ventas
+Content-Type: application/json
+
+{"fecha":"2026-12-17","tipoProducto":"Yogurt","cantidad":5}
+
+### Inventario
+GET {{base}}/api/inventario?fecha=2026-12-17
+
+### Reporte de ventas
+GET {{base}}/api/reportes/ventas?desde=2026-12-01&hasta=2026-12-17
+
+### Reporte de leche diaria
+GET {{base}}/api/reportes/leche-diaria?desde=2026-12-01&hasta=2026-12-17
+
+### Reporte de producto diario
+GET {{base}}/api/reportes/producto-diario?desde=2026-12-01&hasta=2026-12-17
+
+### Reporte de producto total
+GET {{base}}/api/reportes/producto-total
+
+### Reporte de producto dañado
+GET {{base}}/api/reportes/producto-danado?desde=2026-12-01&hasta=2026-12-17
+
+### Reporte de vacas
+GET {{base}}/api/reportes/vacas?desde=2026-12-01&hasta=2026-12-17
